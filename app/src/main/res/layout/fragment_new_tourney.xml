@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="vm" type="com.gmail.cristiandeives.smashtourney.MainViewModel" />
+        <variable name="action" type="com.gmail.cristiandeives.smashtourney.NewTourneyActionHandler" />
+        <variable name="dateFormatter" type="org.threeten.bp.format.DateTimeFormatter" />
+        <variable name="timeFormatter" type="org.threeten.bp.format.DateTimeFormatter" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_window">
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/edit_title"
+            android:text="@string/tourney_title_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edit_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@={vm.createTourneyTitle}"
+            android:inputType="text"
+            android:importantForAutofill="no"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_title"
+            tools:text="First tourney" />
+
+        <TextView
+            android:id="@+id/text_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_elements"
+            android:labelFor="@id/text_date_value"
+            android:text="@string/tourney_date_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edit_title" />
+
+        <Button
+            android:id="@+id/text_date_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{action::showDatePickerDialog}"
+            android:text="@{dateFormatter.format(vm.createTourneyDateTime)}"
+            style="@style/DateTimeButton"
+            app:layout_constraintEnd_toStartOf="@+id/text_time_value"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_date"
+            tools:text="Jan 01, 2001" />
+
+        <TextView
+            android:id="@+id/text_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_elements"
+            android:labelFor="@id/text_time_value"
+            android:text="@string/tourney_time_label"
+            app:layout_constraintStart_toStartOf="@+id/text_time_value"
+            app:layout_constraintTop_toBottomOf="@+id/edit_title" />
+
+        <Button
+            android:id="@+id/text_time_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_elements"
+            android:text="@{timeFormatter.format(vm.createTourneyDateTime)}"
+            android:onClick="@{action::showTimePickerDialog}"
+            style="@style/DateTimeButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintStart_toEndOf="@+id/text_date_value"
+            app:layout_constraintTop_toBottomOf="@+id/text_time"
+            tools:text="01:23" />
+
+        <Button
+            android:id="@+id/button_create"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:onClick="@{action::createTourney}"
+            android:text="@string/create_tourney_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Smash Tourney</string>
+
+    <string name="create_tourney_label">Create new tourney</string>
+
+    <string name="tourney_title_label">Title:</string>
+    <string name="tourney_date_label">Date:</string>
+    <string name="tourney_time_label">Time:</string>
+    <string name="create_tourney_button_text">Create</string>
+    <string name="create_tourney_progress">"Creating tourney…"</string>
+    <string name="create_tourney_success">Tourney created successfully!</string>
+    <string name="create_tourney_error">Failed to create the tourney. Try again later.</string>
 </resources>

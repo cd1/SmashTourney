@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="nav_animation_duration">220</integer>
+    <integer name="nav_animation_fast_duration">150</integer>
+</resources>

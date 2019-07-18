@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1029550955776",
+    "firebase_url": "https://smash-tourney-53d09.firebaseio.com",
+    "project_id": "smash-tourney-53d09",
+    "storage_bucket": "smash-tourney-53d09.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029550955776:android:2550d639bd876179",
+        "android_client_info": {
+          "package_name": "com.gmail.cristiandeives.smashtourney"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1029550955776-ebre27nl17qhjk0kvubfkkelm96soqqc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gmail.cristiandeives.smashtourney",
+            "certificate_hash": "8b1812ba31abcaf3e1b6f4010d9e7703b22d275c"
+          }
+        },
+        {
+          "client_id": "1029550955776-slsh14fgn6tvcmupudg7k0rf5hq4nvbh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYAMSx5Lbu_OIwiX2cqmNBTTZjpC06Ps0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1029550955776-slsh14fgn6tvcmupudg7k0rf5hq4nvbh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
