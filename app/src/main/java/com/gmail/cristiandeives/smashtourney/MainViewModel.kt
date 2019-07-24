@@ -5,14 +5,13 @@ import androidx.annotation.UiThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gmail.cristiandeives.smashtourney.data.Repository
-import com.gmail.cristiandeives.smashtourney.data.TaskState
 import com.gmail.cristiandeives.smashtourney.data.Tourney
+import com.gmail.cristiandeives.smashtourney.data.FirestoreRepository
 import org.threeten.bp.LocalDateTime
 
 @UiThread
 class MainViewModel : ViewModel() {
-    private val repo = Repository.instance
+    private val repo = FirestoreRepository.getInstance()
     private val _createTourneyState = MutableLiveData<TaskState>()
     private val _isTourneyJustCreated = MutableLiveData<Event<Boolean>>()
 
@@ -33,17 +32,17 @@ class MainViewModel : ViewModel() {
 
         Log.i(TAG, "creating tourney: $tourney")
         _createTourneyState.value = TaskState.IN_PROGRESS
-        repo.createTourney(tourney).onSuccess {
+        repo.createTourney(tourney).addOnSuccessListener {
             Log.d(TAG, "create tourney finished successfully")
 
             _isTourneyJustCreated.value = Event(true)
             _createTourneyState.value = TaskState.SUCCESS
             resetCreateTourneyData()
-        }.onFailure { ex ->
+        }.addOnFailureListener { ex ->
             Log.e(TAG, "create tourney failed: ${ex.message}", ex)
 
             _createTourneyState.value = TaskState.FAILED
-        }.onCanceled {
+        }.addOnCanceledListener {
             Log.d(TAG, "create tourney was canceled")
 
             _createTourneyState.value = TaskState.CANCELED

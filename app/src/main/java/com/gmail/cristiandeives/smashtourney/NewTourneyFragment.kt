@@ -17,7 +17,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.gmail.cristiandeives.smashtourney.data.TaskState
 import com.gmail.cristiandeives.smashtourney.databinding.FragmentNewTourneyBinding
 import com.google.android.material.snackbar.Snackbar
 import org.threeten.bp.LocalDate

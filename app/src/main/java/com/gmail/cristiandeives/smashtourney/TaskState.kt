@@ -1,4 +1,4 @@
-package com.gmail.cristiandeives.smashtourney.data
+package com.gmail.cristiandeives.smashtourney
 
 enum class TaskState {
     IN_PROGRESS,
