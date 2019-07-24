@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 @MainThread
 class MainFragment : Fragment() {
     private val viewModel by activityViewModels<MainViewModel>()
+    private var tourneyCreatedSnackbar: Snackbar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,9 +51,29 @@ class MainFragment : Fragment() {
         Log.v(TAG, "< onViewCreated(...)")
     }
 
+    override fun onStop() {
+        Log.v(TAG, "> onStop()")
+        super.onStop()
+
+        hideTourneyCreatedMessageIfPresent()
+
+        Log.v(TAG, "< onStop()")
+    }
+
     @UiThread
     private fun displayTourneyCreatedMessage() {
-        Snackbar.make(requireView(), R.string.create_tourney_success, Snackbar.LENGTH_LONG).show()
+        tourneyCreatedSnackbar = Snackbar.make(requireView(), R.string.create_tourney_success, Snackbar.LENGTH_SHORT).apply {
+            show()
+        }
+    }
+
+    @UiThread
+    private fun hideTourneyCreatedMessageIfPresent() {
+        tourneyCreatedSnackbar?.let { snack ->
+            if (snack.isShownOrQueued) {
+                snack.dismiss()
+            }
+        }
     }
 
     companion object {
