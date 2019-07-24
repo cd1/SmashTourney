@@ -17,6 +17,13 @@
             app:exitAnim="@animator/frag_exit"
             app:popEnterAnim="@animator/frag_pop_enter"
             app:popExitAnim="@animator/frag_pop_exit" />
+        <action
+            android:id="@+id/action_main_list_tourneys"
+            app:destination="@id/listTourneysFragment"
+            app:enterAnim="@animator/frag_enter"
+            app:exitAnim="@animator/frag_exit"
+            app:popEnterAnim="@animator/frag_pop_enter"
+            app:popExitAnim="@animator/frag_pop_exit" />
     </fragment>
     <fragment
         android:id="@+id/newTourneyFragment"
@@ -55,4 +62,9 @@
             android:name="minute"
             app:argType="integer" />
     </dialog>
+    <fragment
+        android:id="@+id/listTourneysFragment"
+        android:name="com.gmail.cristiandeives.smashtourney.ListTourneysFragment"
+        android:label="@string/list_tourneys_label"
+        tools:layout="@layout/fragment_list_tourneys" />
 </navigation>

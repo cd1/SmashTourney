@@ -12,9 +12,20 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/create_tourney_label"
+        app:layout_constraintBottom_toTopOf="@+id/button_list_tourneys"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button_list_tourneys"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/list_tourneys_label"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/button_new_tourney" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

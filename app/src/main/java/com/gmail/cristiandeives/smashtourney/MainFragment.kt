@@ -37,6 +37,8 @@ class MainFragment : Fragment() {
 
         view.findViewById<Button>(R.id.button_new_tourney)
             .setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_main_new_tourney))
+        view.findViewById<Button>(R.id.button_list_tourneys)
+            .setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_main_list_tourneys))
 
         viewModel.isTourneyJustCreated.observe(viewLifecycleOwner, EventObserver { isCreated ->
             Log.v(TAG, "> isTourneyJustCreated#onChanged(event=$isCreated)")

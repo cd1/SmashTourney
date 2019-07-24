@@ -9,4 +9,7 @@
     <string name="tourney_date_label">Data:</string>
     <string name="tourney_time_label">Hora:</string>
     <string name="tourney_title_label">Título:</string>
+    <string name="list_tourneys_label">Listar campeonatos</string>
+    <string name="tourney_title_empty">(Sem título)</string>
+    <string name="no_tourneys">Nenhum campeonato disponível.</string>
 </resources>

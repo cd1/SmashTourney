@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.gmail.cristiandeives.smashtourney.data.Tourney
 import com.gmail.cristiandeives.smashtourney.data.FirestoreRepository
+import com.google.firebase.firestore.Query
 import org.threeten.bp.LocalDateTime
 
 @UiThread
@@ -14,11 +15,16 @@ class MainViewModel : ViewModel() {
     private val repo = FirestoreRepository.getInstance()
     private val _createTourneyState = MutableLiveData<TaskState>()
     private val _isTourneyJustCreated = MutableLiveData<Event<Boolean>>()
+    private val _listTourneysState = MutableLiveData<TaskState>()
+    private var tourneysQueryInstance: Query? = null
 
     val createTourneyTitle = MutableLiveData<String>()
     val createTourneyDateTime = MutableLiveData<LocalDateTime>()
     val createTourneyState: LiveData<TaskState> = _createTourneyState
     val isTourneyJustCreated: LiveData<Event<Boolean>> = _isTourneyJustCreated
+    val listTourneysState: LiveData<TaskState> = _listTourneysState
+    var tourneysSize = 0
+        private set
 
     init {
         resetCreateTourneyData()
@@ -47,6 +53,28 @@ class MainViewModel : ViewModel() {
 
             _createTourneyState.value = TaskState.CANCELED
         }
+    }
+
+    fun getTourneysQuery(): Query {
+        var query = tourneysQueryInstance
+
+        if (query == null) {
+            _listTourneysState.value = TaskState.IN_PROGRESS
+
+            query = repo.getTourneysQuery().apply {
+                addSnapshotListener { snap, ex ->
+                    if (ex != null) {
+                        _listTourneysState.value = TaskState.FAILED
+                        return@addSnapshotListener
+                    }
+
+                    tourneysSize = (snap?.documents?.size ?: 0)
+                    _listTourneysState.value = TaskState.SUCCESS
+                }
+            }.also { tourneysQueryInstance = it }
+        }
+
+        return query
     }
 
     private fun resetCreateTourneyData() {
