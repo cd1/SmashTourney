@@ -8,6 +8,10 @@
         <item name="colorAccent">@color/secondary</item>
     </style>
 
+    <style name="AppTheme.WithSplashscreen">
+        <!-- no splash screen in SDK < 26 -->
+    </style>
+
     <style name="DateTimeButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
         <item name="android:textColor">?attr/editTextColor</item>
         <item name="rippleColor">@color/secondary</item>
