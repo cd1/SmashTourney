@@ -3,10 +3,12 @@ package com.gmail.cristiandeives.smashtourney.data
 import com.firebase.ui.firestore.SnapshotParser
 import com.google.firebase.firestore.DocumentSnapshot
 
-class TourneySnapshotParser : SnapshotParser<Tourney> {
+object TourneySnapshotParser : SnapshotParser<Tourney> {
     override fun parseSnapshot(snapshot: DocumentSnapshot): Tourney {
-        val fsTourney = snapshot.toObject(FirestoreTourney::class.java)
+        val snapId = snapshot.id
 
-        return fsTourney?.toTourney() ?: Tourney()
+        return snapshot.toObject(FirestoreTourney::class.java)
+            ?.copy(id = snapId)
+            ?.toTourney() ?: Tourney(snapId)
     }
 }

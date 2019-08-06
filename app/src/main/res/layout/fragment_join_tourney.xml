@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <variable name="vm" type="com.gmail.cristiandeives.smashtourney.JoinTourneyViewModel" />
+        <variable name="action" type="com.gmail.cristiandeives.smashtourney.JoinTourneyActionHandler" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinator"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/spacing_window">
+
+            <TextView
+                android:id="@+id/text_player"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/edit_nickname"
+                android:text="@string/join_tourney_nickname_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edit_nickname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:autofillHints="username"
+                android:inputType="text"
+                android:text="@={vm.nickname}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_player"
+                tools:text="JohnTheBest" />
+
+            <TextView
+                android:id="@+id/text_fighter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_elements"
+                android:labelFor="@id/spinner_fighter"
+                android:text="@string/join_tourney_fighter_label"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_nickname" />
+
+            <Spinner
+                android:id="@+id/spinner_fighter"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toStartOf="@+id/checkBoxRandom"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_fighter"
+                bind:availableFighters="@{vm.availableFighters}"
+                bind:selectedFighter="@={vm.fighter}" />
+
+            <CheckBox
+                android:id="@+id/checkBoxRandom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fighter_random"
+                android:checked="@={vm.isFighterRandom}"
+                app:layout_constraintBottom_toBottomOf="@+id/spinner_fighter"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/spinner_fighter"
+                app:layout_constraintTop_toTopOf="@+id/spinner_fighter" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/button_join"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{action::joinTourney}"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/spacing_elements"
+            android:layout_marginBottom="@dimen/spacing_window"
+            android:layout_marginStart="@dimen/spacing_window"
+            android:layout_marginEnd="@dimen/spacing_window"
+            android:text="@string/join_tourney_button_text"
+            app:layout_behavior=".SnackbarAwareBehavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

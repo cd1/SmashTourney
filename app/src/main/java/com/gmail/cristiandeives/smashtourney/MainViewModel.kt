@@ -5,8 +5,8 @@ import androidx.annotation.UiThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gmail.cristiandeives.smashtourney.data.Tourney
 import com.gmail.cristiandeives.smashtourney.data.FirestoreRepository
+import com.gmail.cristiandeives.smashtourney.data.Tourney
 import com.google.firebase.firestore.Query
 import org.threeten.bp.LocalDateTime
 
@@ -34,7 +34,7 @@ class MainViewModel : ViewModel() {
         val currentTitle = createTourneyTitle.value.orEmpty()
         val currentDateTime = createTourneyDateTime.value ?: LocalDateTime.now()
 
-        val tourney = Tourney(currentTitle, currentDateTime)
+        val tourney = Tourney(title = currentTitle, dateTime = currentDateTime)
 
         Log.i(TAG, "creating tourney: $tourney")
         _createTourneyState.value = TaskState.IN_PROGRESS

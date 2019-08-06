@@ -1,11 +1,13 @@
 package com.gmail.cristiandeives.smashtourney.data
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Exclude
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 
-class FirestoreTourney(
+data class FirestoreTourney(
+    @get:Exclude val id: String = "",
     val title: String = "",
     val dateTime: Timestamp = Timestamp.now(),
     val createdAt: Timestamp = Timestamp.now()
@@ -18,12 +20,13 @@ class FirestoreTourney(
             Instant.ofEpochSecond(createdAt.seconds, createdAt.nanoseconds.toLong()), ZoneOffset.UTC
         )
 
-        return Tourney(title, javaDateTime, javaCreatedAt)
+        return Tourney(id, title, javaDateTime, javaCreatedAt)
     }
 
     companion object {
         fun fromTourney(tourney: Tourney) =
             FirestoreTourney(
+                tourney.id,
                 tourney.title,
                 Timestamp(
                     tourney.dateTime.atZone(ZoneOffset.UTC).toEpochSecond(),

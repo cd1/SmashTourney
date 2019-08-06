@@ -3,6 +3,7 @@ package com.gmail.cristiandeives.smashtourney
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.MainThread
+import androidx.navigation.Navigation
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.gmail.cristiandeives.smashtourney.data.Tourney
@@ -29,5 +30,8 @@ class ListTourneysAdapter(opts: FirestoreRecyclerOptions<Tourney>) : FirestoreRe
             setDate(dateFormatter.format(tourney.dateTime))
             setTime(timeFormatter.format(tourney.dateTime))
         }
+
+        val directions = ListTourneysFragmentDirections.actionListTourneysViewTourney(tourney.id)
+        holder.itemView.setOnClickListener(Navigation.createNavigateOnClickListener(directions))
     }
 }

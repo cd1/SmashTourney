@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.text.TextUtils" />
+
+        <variable name="vm" type="com.gmail.cristiandeives.smashtourney.ViewTourneyViewModel" />
+        <variable name="action" type="com.gmail.cristiandeives.smashtourney.JoinTourneyActionHandler" />
+        <variable name="dateFormatter" type="org.threeten.bp.format.DateTimeFormatter" />
+        <variable name="timeFormatter" type="org.threeten.bp.format.DateTimeFormatter" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/spacing_window"
+            android:paddingBottom="@dimen/spacing_window">
+
+            <TextView
+                android:id="@+id/text_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{!TextUtils.isEmpty(vm.tourney.title) ? vm.tourney.title : @string/tourney_title_empty}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="First tourney" />
+
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{dateFormatter.format(vm.tourney.dateTime)}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_title"
+                tools:text="Jan 01, 2001" />
+
+            <TextView
+                android:id="@+id/text_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{timeFormatter.format(vm.tourney.dateTime)}"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_date"
+                tools:text="02:34" />
+
+            <Space
+                android:id="@+id/space"
+                android:layout_width="wrap_content"
+                android:layout_height="64dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_time" />
+
+            <!-- at most one of @id/text_players_status or @id/recycler_view_players should be visible at any given time -->
+
+            <TextView
+                android:id="@+id/text_players_status"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:paddingTop="@dimen/spacing_elements"
+                android:paddingBottom="@dimen/spacing_elements"
+                android:paddingStart="@dimen/spacing_window"
+                android:paddingEnd="@dimen/spacing_window"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/space" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_players"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:paddingTop="@dimen/spacing_elements"
+                android:paddingBottom="@dimen/spacing_elements"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/space"
+                tools:listitem="@layout/view_holder_player"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/button_join_tourney"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/join_tourney_button_text"
+            android:onClick="@{action::joinTourney}"
+            android:layout_marginStart="@dimen/spacing_window"
+            android:layout_marginEnd="@dimen/spacing_window"
+            android:layout_marginTop="@dimen/spacing_elements"
+            android:layout_marginBottom="@dimen/spacing_window"
+            android:layout_gravity="bottom"
+            app:layout_behavior=".SnackbarAwareBehavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

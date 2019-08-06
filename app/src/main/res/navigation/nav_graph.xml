@@ -66,5 +66,38 @@
         android:id="@+id/listTourneysFragment"
         android:name="com.gmail.cristiandeives.smashtourney.ListTourneysFragment"
         android:label="@string/list_tourneys_label"
-        tools:layout="@layout/fragment_list_tourneys" />
+        tools:layout="@layout/fragment_list_tourneys" >
+        <action
+            android:id="@+id/action_list_tourneys_view_tourney"
+            app:destination="@id/viewTourneyFragment"
+            app:enterAnim="@animator/frag_enter"
+            app:exitAnim="@animator/frag_exit"
+            app:popEnterAnim="@animator/frag_pop_enter"
+            app:popExitAnim="@animator/frag_pop_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewTourneyFragment"
+        android:name="com.gmail.cristiandeives.smashtourney.ViewTourneyFragment"
+        android:label="@string/view_tourney_label"
+        tools:layout="@layout/fragment_view_tourney" >
+        <argument
+            android:name="tourneyId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_view_tourney_join_tourney"
+            app:destination="@id/joinTourneyFragment"
+            app:enterAnim="@animator/frag_enter"
+            app:exitAnim="@animator/frag_exit"
+            app:popEnterAnim="@animator/frag_pop_enter"
+            app:popExitAnim="@animator/frag_pop_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/joinTourneyFragment"
+        android:name="com.gmail.cristiandeives.smashtourney.JoinTourneyFragment"
+        android:label="@string/join_tourney_label"
+        tools:layout="@layout/fragment_join_tourney" >
+        <argument
+            android:name="tourneyId"
+            app:argType="string" />
+    </fragment>
 </navigation>

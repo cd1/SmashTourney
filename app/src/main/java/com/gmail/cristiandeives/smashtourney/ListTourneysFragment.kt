@@ -34,7 +34,6 @@ class ListTourneysFragment : Fragment() {
             setCancelable(false)
         }
     }
-    private val snapshotParser = TourneySnapshotParser()
 
     private lateinit var textNoTourneys: TextView
     private lateinit var recyclerView: RecyclerView
@@ -58,7 +57,7 @@ class ListTourneysFragment : Fragment() {
 
         val query = viewModel.getTourneysQuery()
         val opts = FirestoreRecyclerOptions.Builder<Tourney>()
-            .setQuery(query, snapshotParser)
+            .setQuery(query, TourneySnapshotParser)
             .setLifecycleOwner(viewLifecycleOwner)
             .build()
 

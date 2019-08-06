@@ -16,4 +16,24 @@
     <string name="list_tourneys_error">Failed to load the tourneys. Try again later.</string>
     <string name="no_tourneys">No tourneys available.</string>
     <string name="tourney_title_empty">(No title)</string>
+
+    <string name="view_tourney_label">Tourney details</string>
+    <string name="view_tourney_progress">Loading tourney…</string>
+    <string name="view_tourney_no_such_tourney_error">The selected tourney isn\'t available anymore.</string>
+    <string name="view_tourney_load_error">Failed to load the tourney. Try again later.</string>
+    <string name="view_tourney_player_progress">Loading players…</string>
+    <string name="view_tourney_player_error">There was an error while trying to load the players in this tourney.</string>
+    <string name="view_tourney_player_no_players">No players have joined this tourney yet.</string>
+    <string name="view_tourney_player_label">%1$s (%2$s)</string>
+    <string name="join_tourney_button_text">Join</string>
+
+    <string name="join_tourney_label">Join tourney</string>
+    <string name="join_tourney_nickname_label">Player\'s nickname:</string>
+    <string name="join_tourney_fighter_label">Fighter:</string>
+    <string name="fighter_random">Random</string>
+    <string name="join_tourney_progress">Joining tourney…</string>
+    <string name="join_tourney_missing_nickname_error">You need to enter the player\'s nickname.</string>
+    <string name="join_tourney_missing_fighter_error">You need to choose the player\'s fighter.</string>
+    <string name="join_tourney_duplicate_nickname_error">Player %1$s has already joined this tourney. Enter a different nickname.</string>
+    <string name="join_tourney_error">Failed to join the tourney. Try again later.</string>
 </resources>
