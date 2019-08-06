@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.gmail.cristiandeives.smashtourney.data.Tourney
 import com.gmail.cristiandeives.smashtourney.data.TourneySnapshotParser
+import com.google.android.material.snackbar.Snackbar
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 import java.text.SimpleDateFormat
@@ -29,7 +30,7 @@ class ListTourneysFragment : Fragment() {
     private val viewModel by activityViewModels<MainViewModel>()
     private val progressDialog by lazy {
         ProgressDialog(requireContext()).apply {
-            setMessage("Loading tourneys...")
+            setMessage(getString(R.string.list_tourneys_progress))
             setCancelable(false)
         }
     }
@@ -73,19 +74,14 @@ class ListTourneysFragment : Fragment() {
             Log.v(TAG, "> listTourneysState#onChanged(t=$state)")
 
             when (state) {
-                TaskState.IN_PROGRESS -> startCreateProgress()
-                TaskState.SUCCESS -> {
-                    if (viewModel.tourneysSize > 0) {
-                        displayData()
-                    } else {
-                        displayNoData()
-                    }
-                }
+                TaskState.IN_PROGRESS -> startLoadProgress()
+                TaskState.SUCCESS -> onTourneysLoaded()
+                TaskState.FAILED -> displayFailureMessage()
                 else -> Log.d(TAG, "skipping state $state")
             }
 
             if (state?.isComplete == true) {
-                stopCreateProgress()
+                stopLoadProgress()
             }
 
             Log.v(TAG, "< listTourneysState#onChanged(t=$state)")
@@ -107,13 +103,22 @@ class ListTourneysFragment : Fragment() {
     }
 
     @UiThread
-    private fun startCreateProgress() {
+    private fun startLoadProgress() {
         progressDialog.show()
     }
 
     @UiThread
-    private fun stopCreateProgress() {
+    private fun stopLoadProgress() {
         progressDialog.dismiss()
+    }
+
+    @UiThread
+    private fun onTourneysLoaded() {
+        if (viewModel.tourneysSize > 0) {
+            displayData()
+        } else {
+            displayNoData()
+        }
     }
 
     @UiThread
@@ -126,6 +131,11 @@ class ListTourneysFragment : Fragment() {
     private fun displayNoData() {
         textNoTourneys.isVisible = true
         recyclerView.isGone = true
+    }
+
+    @UiThread
+    private fun displayFailureMessage() {
+        Snackbar.make(requireView(), R.string.list_tourneys_error, Snackbar.LENGTH_LONG).show()
     }
 
     companion object {

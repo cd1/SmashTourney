@@ -12,6 +12,8 @@
     <string name="create_tourney_success">Tourney created successfully!</string>
     <string name="create_tourney_error">Failed to create the tourney. Try again later.</string>
 
+    <string name="list_tourneys_progress">Loading tourneys…</string>
+    <string name="list_tourneys_error">Failed to load the tourneys. Try again later.</string>
     <string name="no_tourneys">No tourneys available.</string>
     <string name="tourney_title_empty">(No title)</string>
 </resources>

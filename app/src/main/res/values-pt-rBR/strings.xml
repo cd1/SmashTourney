@@ -12,4 +12,6 @@
     <string name="list_tourneys_label">Listar campeonatos</string>
     <string name="tourney_title_empty">(Sem título)</string>
     <string name="no_tourneys">Nenhum campeonato disponível.</string>
+    <string name="list_tourneys_error">Não foi possível carregar os campeonatos. Tente novamente mais tarde.</string>
+    <string name="list_tourneys_progress">Carregando campeonatos…</string>
 </resources>
