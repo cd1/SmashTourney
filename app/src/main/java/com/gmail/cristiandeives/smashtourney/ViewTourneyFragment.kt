@@ -31,6 +31,7 @@ class ViewTourneyFragment : Fragment(), ViewTourneyActionHandler {
     private val viewModel by viewModels<ViewTourneyViewModel>(factoryProducer = {
         ViewModelFactory(args.tourneyId)
     })
+    private val navController by lazy { findNavController() }
     private val progressDialog by lazy {
         ProgressDialog(requireContext()).apply {
             setMessage(getString(R.string.view_tourney_progress))
@@ -145,13 +146,13 @@ class ViewTourneyFragment : Fragment(), ViewTourneyActionHandler {
     @UiThread
     override fun addPlayer(view: View) {
         val directions = ViewTourneyFragmentDirections.actionViewTourneyAddPlayer(args.tourneyId)
-        findNavController().navigate(directions)
+        navController.navigate(directions)
     }
 
     @UiThread
     override fun enterResults(view: View) {
         val directions = ViewTourneyFragmentDirections.actionViewTourneyEnterResults(args.tourneyId)
-        findNavController().navigate(directions)
+        navController.navigate(directions)
     }
 
     @UiThread
