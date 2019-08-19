@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingStart="@dimen/spacing_window"
-    android:paddingEnd="@dimen/spacing_window"
-    android:paddingTop="@dimen/spacing_elements"
-    android:paddingBottom="@dimen/spacing_elements">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:id="@+id/text_player"
-        android:layout_width="wrap_content"
+    <data>
+        <variable name="player" type="com.gmail.cristiandeives.smashtourney.data.Player" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        tools:text="JohnTheBest (Mario)" />
-</FrameLayout>
+        android:paddingStart="@dimen/spacing_window"
+        android:paddingEnd="@dimen/spacing_window"
+        android:paddingTop="@dimen/spacing_elements"
+        android:paddingBottom="@dimen/spacing_elements">
+
+        <TextView
+            android:id="@+id/text_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{@string/view_tourney_player_label(player.nickname, player.fighter.name)}"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            tools:text="JohnTheBest (Mario)" />
+    </FrameLayout>
+
+</layout>

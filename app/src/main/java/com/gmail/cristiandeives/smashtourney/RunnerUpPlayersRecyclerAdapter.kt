@@ -10,7 +10,7 @@ import com.gmail.cristiandeives.smashtourney.data.Player
 import com.gmail.cristiandeives.smashtourney.databinding.ViewHolderRunnerUpPlayerBinding
 
 @MainThread
-class RunnerUpPlayersRecyclerAdapter : RecyclerView.Adapter<RunnerUpPlayerViewHolder>() {
+class RunnerUpPlayersRecyclerAdapter : RecyclerView.Adapter<RunnerUpPlayersRecyclerAdapter.ViewHolder>() {
     var data = emptyList<RunnerUpPlayer>()
         set(value) {
             field = value
@@ -35,16 +35,16 @@ class RunnerUpPlayersRecyclerAdapter : RecyclerView.Adapter<RunnerUpPlayerViewHo
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RunnerUpPlayerViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ViewHolderRunnerUpPlayerBinding.inflate(
             LayoutInflater.from(parent.context), parent, false)
 
-        return RunnerUpPlayerViewHolder(binding)
+        return ViewHolder(binding)
     }
 
     override fun getItemCount() = data.size
 
-    override fun onBindViewHolder(holder: RunnerUpPlayerViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val runnerUpPlayer = data[position]
 
         holder.binding.player = runnerUpPlayer
@@ -56,4 +56,6 @@ class RunnerUpPlayersRecyclerAdapter : RecyclerView.Adapter<RunnerUpPlayerViewHo
         var isChampion: Boolean,
         val isRunnerUp: MutableLiveData<Boolean>
     )
+
+    class ViewHolder(val binding: ViewHolderRunnerUpPlayerBinding) : RecyclerView.ViewHolder(binding.root)
 }
