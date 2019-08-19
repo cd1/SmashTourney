@@ -7,19 +7,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.annotation.MainThread
 import androidx.annotation.UiThread
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
 import com.gmail.cristiandeives.smashtourney.data.Tourney
 import com.gmail.cristiandeives.smashtourney.data.TourneySnapshotParser
+import com.gmail.cristiandeives.smashtourney.databinding.FragmentListTourneysBinding
 import com.google.android.material.snackbar.Snackbar
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
@@ -27,7 +24,7 @@ import java.text.SimpleDateFormat
 
 @MainThread
 class ListTourneysFragment : Fragment() {
-    private val viewModel by activityViewModels<MainViewModel>()
+    private val viewModel by activityViewModels<ListTourneysViewModel>()
     private val progressDialog by lazy {
         ProgressDialog(requireContext()).apply {
             setMessage(getString(R.string.list_tourneys_progress))
@@ -35,8 +32,7 @@ class ListTourneysFragment : Fragment() {
         }
     }
 
-    private lateinit var textNoTourneys: TextView
-    private lateinit var recyclerView: RecyclerView
+    private lateinit var binding: FragmentListTourneysBinding
     private lateinit var tourneysAdapter: ListTourneysAdapter
 
     override fun onCreateView(
@@ -46,16 +42,22 @@ class ListTourneysFragment : Fragment() {
     ): View? {
         Log.v(TAG, "> onCreateView(...)")
 
-        val view = inflater.inflate(R.layout.fragment_list_tourneys, container, false)
+        binding = FragmentListTourneysBinding.inflate(inflater, container, false)
 
         Log.v(TAG, "< onCreateView(...)")
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val query = viewModel.getTourneysQuery()
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+
+            tourneysCount = viewModel.tourneysCount
+        }
+
+        val query = viewModel.tourneysQuery
         val opts = FirestoreRecyclerOptions.Builder<Tourney>()
             .setQuery(query, TourneySnapshotParser)
             .setLifecycleOwner(viewLifecycleOwner)
@@ -63,27 +65,24 @@ class ListTourneysFragment : Fragment() {
 
         tourneysAdapter = ListTourneysAdapter(opts)
 
-        textNoTourneys = view.findViewById(R.id.text_no_tourneys)
-        recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
+        binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = tourneysAdapter
         }
 
-        viewModel.listTourneysState.observe(viewLifecycleOwner) { state: TaskState? ->
-            Log.v(TAG, "> listTourneysState#onChanged(t=$state)")
+        viewModel.listState.observe(viewLifecycleOwner) { res: Resource<Nothing>? ->
+            Log.v(TAG, "> listState#onChanged(t=$res)")
 
-            when (state) {
-                TaskState.IN_PROGRESS -> startLoadProgress()
-                TaskState.SUCCESS -> onTourneysLoaded()
-                TaskState.FAILED -> displayFailureMessage()
-                else -> Log.d(TAG, "skipping state $state")
+            when (res) {
+                is Resource.Loading -> startLoadProgress()
+                is Resource.Error -> displayFailureMessage()
             }
 
-            if (state?.isComplete == true) {
+            if (res?.isFinished == true) {
                 stopLoadProgress()
             }
 
-            Log.v(TAG, "< listTourneysState#onChanged(t=$state)")
+            Log.v(TAG, "< listState#onChanged(t=$res)")
         }
     }
 
@@ -109,27 +108,6 @@ class ListTourneysFragment : Fragment() {
     @UiThread
     private fun stopLoadProgress() {
         progressDialog.dismiss()
-    }
-
-    @UiThread
-    private fun onTourneysLoaded() {
-        if (viewModel.tourneysSize > 0) {
-            displayData()
-        } else {
-            displayNoData()
-        }
-    }
-
-    @UiThread
-    private fun displayData() {
-        textNoTourneys.isGone = true
-        recyclerView.isVisible = true
-    }
-
-    @UiThread
-    private fun displayNoData() {
-        textNoTourneys.isVisible = true
-        recyclerView.isGone = true
     }
 
     @UiThread

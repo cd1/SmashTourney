@@ -15,7 +15,7 @@ import com.google.android.material.snackbar.Snackbar
 
 @MainThread
 class MainFragment : Fragment() {
-    private val viewModel by activityViewModels<MainViewModel>()
+    private val viewModel by activityViewModels<SharedViewModel>()
     private var tourneyCreatedSnackbar: Snackbar? = null
 
     override fun onCreateView(

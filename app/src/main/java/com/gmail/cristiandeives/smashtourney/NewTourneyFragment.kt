@@ -15,6 +15,7 @@ import androidx.annotation.MainThread
 import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.gmail.cristiandeives.smashtourney.databinding.FragmentNewTourneyBinding
@@ -32,7 +33,8 @@ class NewTourneyFragment : Fragment(),
     TimePickerDialog.OnTimeSetListener,
     NewTourneyActionHandler {
 
-    private val viewModel by activityViewModels<MainViewModel>()
+    private val sharedViewModel by activityViewModels<SharedViewModel>()
+    private val viewModel by viewModels<NewTourneyViewModel>()
     private val navController by lazy { findNavController() }
     private val progressDialog by lazy {
         ProgressDialog(requireContext()).apply {
@@ -81,21 +83,20 @@ class NewTourneyFragment : Fragment(),
         Log.v(TAG, "> onViewCreated(...)")
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.createTourneyState.observe(viewLifecycleOwner) { state: TaskState? ->
-            Log.v(TAG, "> createTourneyState#onChanged(t=$state)")
+        viewModel.createState.observe(viewLifecycleOwner) { res: Resource<Nothing>? ->
+            Log.v(TAG, "> createState#onChanged(t=$res)")
 
-            when (state) {
-                TaskState.IN_PROGRESS -> startCreateProgress()
-                TaskState.SUCCESS -> onTourneyCreated()
-                TaskState.FAILED -> displayFailureMessage()
-                else -> Log.d(TAG, "skipping state $state")
+            when (res) {
+                is Resource.Loading -> startCreateProgress()
+                is Resource.Success -> onTourneyCreated()
+                is Resource.Error -> displayFailureMessage()
             }
 
-            if (state?.isComplete == true) {
+            if (res?.isFinished == true) {
                 stopCreateProgress()
             }
 
-            Log.v(TAG, "< createTourneyState#onChanged(t=$state)")
+            Log.v(TAG, "< createState#onChanged(t=$res)")
         }
 
         Log.v(TAG, "< onViewCreated(...)")
@@ -104,8 +105,8 @@ class NewTourneyFragment : Fragment(),
     override fun onDateSet(view: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
         Log.v(TAG, "> onDateSet(..., year=$year, month=$month, dayOfMonth=$dayOfMonth)")
 
-        val currentDateTime = viewModel.createTourneyDateTime.value ?: LocalDateTime.now()
-        viewModel.createTourneyDateTime.value = currentDateTime
+        val currentDateTime = viewModel.dateTime.value ?: LocalDateTime.now()
+        viewModel.dateTime.value = currentDateTime
             .withYear(year)
             .withMonth(month + 1)
             .withDayOfMonth(dayOfMonth)
@@ -116,9 +117,9 @@ class NewTourneyFragment : Fragment(),
     override fun onTimeSet(view: TimePicker, hourOfDay: Int, minute: Int) {
         Log.v(TAG, "> onTimeSet(..., hourOfDay=$hourOfDay, minute=$minute)")
 
-        val currentDateTime = viewModel.createTourneyDateTime.value ?: LocalDateTime.now()
+        val currentDateTime = viewModel.dateTime.value ?: LocalDateTime.now()
 
-        viewModel.createTourneyDateTime.value = currentDateTime
+        viewModel.dateTime.value = currentDateTime
             .withHour(hourOfDay)
             .withMinute(minute)
 
@@ -126,7 +127,7 @@ class NewTourneyFragment : Fragment(),
     }
 
     override fun showDatePickerDialog(view: View) {
-        val currentDate = viewModel.createTourneyDateTime.value?.toLocalDate() ?: LocalDate.now()
+        val currentDate = viewModel.dateTime.value?.toLocalDate() ?: LocalDate.now()
 
         val datePickerAction = NewTourneyFragmentDirections.actionNewTourneyDatePicker(
             currentDate.year,
@@ -138,7 +139,7 @@ class NewTourneyFragment : Fragment(),
 
     @UiThread
     override fun showTimePickerDialog(view: View) {
-        val currentTime = viewModel.createTourneyDateTime.value?.toLocalTime() ?: LocalTime.now()
+        val currentTime = viewModel.dateTime.value?.toLocalTime() ?: LocalTime.now()
 
         val timePickerAction = NewTourneyFragmentDirections.actionNewTourneyTimePicker(
             currentTime.hour,
@@ -159,6 +160,8 @@ class NewTourneyFragment : Fragment(),
 
     @UiThread
     private fun onTourneyCreated() {
+        sharedViewModel.isTourneyJustCreated.value = Event(true)
+
         navController.navigateUp()
     }
 

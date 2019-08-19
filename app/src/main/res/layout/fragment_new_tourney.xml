@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable name="vm" type="com.gmail.cristiandeives.smashtourney.MainViewModel" />
+        <variable name="vm" type="com.gmail.cristiandeives.smashtourney.NewTourneyViewModel" />
         <variable name="action" type="com.gmail.cristiandeives.smashtourney.NewTourneyActionHandler" />
         <variable name="dateFormatter" type="org.threeten.bp.format.DateTimeFormatter" />
         <variable name="timeFormatter" type="org.threeten.bp.format.DateTimeFormatter" />
@@ -29,7 +29,7 @@
             android:id="@+id/edit_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@={vm.createTourneyTitle}"
+            android:text="@={vm.title}"
             android:inputType="text"
             android:importantForAutofill="no"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +52,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:onClick="@{action::showDatePickerDialog}"
-            android:text="@{dateFormatter.format(vm.createTourneyDateTime)}"
+            android:text="@{dateFormatter.format(vm.dateTime)}"
             style="@style/DateTimeButton"
             app:layout_constraintEnd_toStartOf="@+id/text_time_value"
             app:layout_constraintHorizontal_bias="0.5"
@@ -76,7 +76,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_elements"
-            android:text="@{timeFormatter.format(vm.createTourneyDateTime)}"
+            android:text="@{timeFormatter.format(vm.dateTime)}"
             android:onClick="@{action::showTimePickerDialog}"
             style="@style/DateTimeButton"
             app:layout_constraintEnd_toEndOf="parent"

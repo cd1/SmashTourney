@@ -19,7 +19,7 @@ class FirestoreRepository {
         return db.collection(TOURNEY_COLLECTION).add(fsTourney)
     }
 
-    fun getTourneysQuery(): Query {
+    fun getAvailableTourneysQuery(): Query {
         Log.d(TAG, "querying Firestore documents from collection $TOURNEY_COLLECTION")
         return db.collection(TOURNEY_COLLECTION)
             .whereEqualTo(TOURNEY_CHAMPION_FIELD, null)
