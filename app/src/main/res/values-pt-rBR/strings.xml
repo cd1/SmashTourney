@@ -3,7 +3,7 @@
     <string name="app_name">Smash Tourney</string>
     <string name="create_tourney_button_text">Criar</string>
     <string name="create_tourney_error">Não foi possível criar o campeonato. Tente novamente mais tarde.</string>
-    <string name="create_tourney_label">Criar um novo campeonato</string>
+    <string name="create_tourney_label">Criar novo campeonato</string>
     <string name="create_tourney_progress">Criando campeonato…</string>
     <string name="create_tourney_success">Campeonato criado com sucesso!</string>
     <string name="tourney_date_label">Data:</string>
