@@ -14,7 +14,7 @@ import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
@@ -69,7 +69,7 @@ class ListTourneysFragment : Fragment() {
             adapter = tourneysAdapter
         }
 
-        viewModel.listTourneysState.observe(viewLifecycleOwner, Observer { state: TaskState? ->
+        viewModel.listTourneysState.observe(viewLifecycleOwner) { state: TaskState? ->
             Log.v(TAG, "> listTourneysState#onChanged(t=$state)")
 
             when (state) {
@@ -84,7 +84,7 @@ class ListTourneysFragment : Fragment() {
             }
 
             Log.v(TAG, "< listTourneysState#onChanged(t=$state)")
-        })
+        }
     }
 
     override fun onStart() {

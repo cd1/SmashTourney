@@ -12,7 +12,7 @@ import androidx.annotation.UiThread
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -77,7 +77,7 @@ class ViewTourneyFragment : Fragment(), ViewTourneyActionHandler {
         }
 
         viewModel.apply {
-            loadTourneyRes.observe(viewLifecycleOwner, Observer { res: Resource<Tourney>? ->
+            loadTourneyRes.observe(viewLifecycleOwner) { res: Resource<Tourney>? ->
                 Log.v(TAG, "> loadTourneyRes#onChanged(t=$res)")
 
                 when (res) {
@@ -90,9 +90,9 @@ class ViewTourneyFragment : Fragment(), ViewTourneyActionHandler {
                 }
 
                 Log.v(TAG, "< loadTourneyRes#onChanged(t=$res)")
-            })
+            }
 
-            loadPlayersRes.observe(viewLifecycleOwner, Observer { res: Resource<Nothing> ->
+            loadPlayersRes.observe(viewLifecycleOwner) { res: Resource<Nothing>? ->
                 Log.v(TAG, "> loadPlayersRes#onChanged(t=$res)")
 
                 when (res) {
@@ -111,7 +111,7 @@ class ViewTourneyFragment : Fragment(), ViewTourneyActionHandler {
                     (res is Resource.Success && hasAnyPlayers)
 
                 Log.v(TAG, "< loadPlayersRes#onChanged(t=$res)")
-            })
+            }
         }
 
         Log.v(TAG, "< onViewCreated(...)")

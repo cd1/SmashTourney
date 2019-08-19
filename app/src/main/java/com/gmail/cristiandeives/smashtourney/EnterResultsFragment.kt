@@ -12,7 +12,7 @@ import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -74,7 +74,7 @@ class EnterResultsFragment : Fragment() {
         }
 
         viewModel.apply {
-            champion.observe(viewLifecycleOwner, Observer { champion: Player? ->
+            champion.observe(viewLifecycleOwner) { champion: Player? ->
                 Log.v(TAG, "> champion#onChanged(t=$champion)")
 
                 champion?.let { c ->
@@ -83,9 +83,9 @@ class EnterResultsFragment : Fragment() {
                 }
 
                 Log.v(TAG, "< champion#onChanged(t=$champion)")
-            })
+            }
 
-            loadPlayersRes.observe(viewLifecycleOwner, Observer { res: Resource<List<Player>>? ->
+            loadPlayersRes.observe(viewLifecycleOwner) { res: Resource<List<Player>>? ->
                 Log.v(TAG, "> loadPlayerRes#onChanged(t=$res)")
 
                 when (res) {
@@ -99,9 +99,9 @@ class EnterResultsFragment : Fragment() {
                 }
 
                 Log.v(TAG, "< loadPlayerRes#onChanged(t=$res)")
-            })
+            }
 
-            enterStateRes.observe(viewLifecycleOwner, Observer { res: Resource<Nothing>? ->
+            enterStateRes.observe(viewLifecycleOwner) { res: Resource<Nothing>? ->
                 Log.v(TAG, "> enterStateRes#onChanged(t=$res)")
 
                 when (res) {
@@ -115,7 +115,7 @@ class EnterResultsFragment : Fragment() {
                 }
 
                 Log.v(TAG, "< enterStateRes#onChanged(t=$res)")
-            })
+            }
         }
 
         Log.v(TAG, "< onViewCreated(...)")
@@ -149,7 +149,7 @@ class EnterResultsFragment : Fragment() {
             val isRunnerUpLive = MutableLiveData<Boolean>().apply {
                 value = (p != actualChampion && p in viewModel.runnerUps)
 
-                observe(viewLifecycleOwner, Observer { isPlayerRunnerUp: Boolean? ->
+                observe(viewLifecycleOwner) { isPlayerRunnerUp: Boolean? ->
                     Log.v(TAG, "> [${p.nickname}].isRunnerUp#onChanged(t=$isPlayerRunnerUp)")
 
                     if (isPlayerRunnerUp == true) {
@@ -159,7 +159,7 @@ class EnterResultsFragment : Fragment() {
                     }
 
                     Log.v(TAG, "< [${p.nickname}].isRunnerUp#onChanged(t=$isPlayerRunnerUp)")
-                })
+                }
             }
 
             RunnerUpPlayersRecyclerAdapter.RunnerUpPlayer(p.nickname, p.fighter, p == actualChampion, isRunnerUpLive)

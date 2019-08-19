@@ -15,7 +15,7 @@ import androidx.annotation.MainThread
 import androidx.annotation.UiThread
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import com.gmail.cristiandeives.smashtourney.databinding.FragmentNewTourneyBinding
 import com.google.android.material.snackbar.Snackbar
@@ -81,7 +81,7 @@ class NewTourneyFragment : Fragment(),
         Log.v(TAG, "> onViewCreated(...)")
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.createTourneyState.observe(viewLifecycleOwner, Observer { state: TaskState? ->
+        viewModel.createTourneyState.observe(viewLifecycleOwner) { state: TaskState? ->
             Log.v(TAG, "> createTourneyState#onChanged(t=$state)")
 
             when (state) {
@@ -96,7 +96,7 @@ class NewTourneyFragment : Fragment(),
             }
 
             Log.v(TAG, "< createTourneyState#onChanged(t=$state)")
-        })
+        }
 
         Log.v(TAG, "< onViewCreated(...)")
     }

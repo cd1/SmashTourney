@@ -13,6 +13,7 @@ import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.gmail.cristiandeives.smashtourney.databinding.FragmentAddPlayerBinding
@@ -61,17 +62,17 @@ class AddPlayerFragment : Fragment() {
         }
 
         viewModel.apply {
-            isFighterRandom.observe(viewLifecycleOwner, Observer { isRandom ->
+            isFighterRandom.observe(viewLifecycleOwner) { isRandom: Boolean? ->
                 Log.v(TAG, "> isFighterRandom#onChanged(t=$isRandom)")
 
                 // if the property android:enabled existed for Spinner, we could do this
                 // in the layout XML via Data Binding... :-(
-                binding.spinnerFighter.isEnabled = !isRandom
+                binding.spinnerFighter.isEnabled = (isRandom != true)
 
                 Log.v(TAG, "< isFighterRandom#onChanged(t=$isRandom)")
-            })
+            }
 
-            addPlayerState.observe(viewLifecycleOwner, Observer { res: Resource<Nothing>? ->
+            addPlayerState.observe(viewLifecycleOwner) { res: Resource<Nothing>? ->
                 Log.v(TAG, "> addPlayerState#onChanged(t=$res)")
 
                 when (res) {
@@ -85,7 +86,7 @@ class AddPlayerFragment : Fragment() {
                 }
 
                 Log.v(TAG, "< addPlayerState#onChanged(t=$res)")
-            })
+            }
         }
 
         Log.v(TAG, "< onViewCreated(...)")
