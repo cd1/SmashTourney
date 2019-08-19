@@ -45,6 +45,6 @@ class FighterSpinnerAdapter(ctx: Context) : ArrayAdapter<Fighter>(ctx, android.R
 
     companion object {
         private fun Fighter.toAdapterString() =
-            "${String.format("%02d", number)}${if (isEcho) "ε" else ""} - $name"
+            "${String.format("%02d", number)}${if (echo) "ε" else ""} - $name"
     }
 }

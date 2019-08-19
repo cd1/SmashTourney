@@ -3,7 +3,7 @@ package com.gmail.cristiandeives.smashtourney.data
 data class Fighter(
     val number: Int = 0,
     val name: String = "",
-    val isEcho: Boolean = false
+    val echo: Boolean = false
 ) {
     companion object {
         val DEFAULT_FIGHTERS = listOf(
