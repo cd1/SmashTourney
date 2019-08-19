@@ -7,7 +7,8 @@ class ViewModelFactory(private val tourneyId: String) : ViewModelProvider.Factor
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         val viewModel = when (modelClass) {
             ViewTourneyViewModel::class.java -> ViewTourneyViewModel(tourneyId)
-            JoinTourneyViewModel::class.java -> JoinTourneyViewModel(tourneyId)
+            AddPlayerViewModel::class.java -> AddPlayerViewModel(tourneyId)
+            EnterResultsViewModel::class.java -> EnterResultsViewModel(tourneyId)
             else -> throw IllegalArgumentException("ViewModelFactory: cannot create ViewModel for class $modelClass")
         }
 

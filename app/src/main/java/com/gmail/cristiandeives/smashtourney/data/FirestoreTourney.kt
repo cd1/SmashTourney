@@ -1,6 +1,7 @@
 package com.gmail.cristiandeives.smashtourney.data
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.Exclude
 import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
@@ -10,9 +11,11 @@ data class FirestoreTourney(
     @get:Exclude val id: String = "",
     val title: String = "",
     val dateTime: Timestamp = Timestamp.now(),
-    val createdAt: Timestamp = Timestamp.now()
+    val createdAt: Timestamp = Timestamp.now(),
+    val champion: DocumentReference? = null,
+    val runnerUps: List<DocumentReference> = emptyList()
 ) {
-    fun toTourney(): Tourney {
+    fun toTourneyShallow(): Tourney {
         val javaDateTime = LocalDateTime.ofInstant(
             Instant.ofEpochSecond(dateTime.seconds, dateTime.nanoseconds.toLong()), ZoneOffset.UTC
         )
@@ -20,11 +23,14 @@ data class FirestoreTourney(
             Instant.ofEpochSecond(createdAt.seconds, createdAt.nanoseconds.toLong()), ZoneOffset.UTC
         )
 
+        // TODO: "champion" and "runnerUps" aren't unpacked because we'd need to read data from Firestore again
+        // currently, we don't need to read those values anywhere in the app, so we can live
+        // with it.
         return Tourney(id, title, javaDateTime, javaCreatedAt)
     }
 
     companion object {
-        fun fromTourney(tourney: Tourney) =
+        fun fromTourneyShallow(tourney: Tourney) =
             FirestoreTourney(
                 tourney.id,
                 tourney.title,
@@ -36,6 +42,9 @@ data class FirestoreTourney(
                     tourney.createdAt.atZone(ZoneOffset.UTC).toEpochSecond(),
                     tourney.createdAt.nano
                 )
+                // TODO: "champion" and "runnerUps" aren't packed because we'd need the Firestore connection object
+                // currently, we don't need to write those values via "fromTourneyShallow" anywhere
+                // in the app, so we can live with it.
             )
     }
 }

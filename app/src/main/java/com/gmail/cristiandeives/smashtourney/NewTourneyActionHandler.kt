@@ -7,5 +7,4 @@ import androidx.annotation.UiThread
 interface NewTourneyActionHandler {
     fun showDatePickerDialog(view: View)
     fun showTimePickerDialog(view: View)
-    fun createTourney(view: View)
 }

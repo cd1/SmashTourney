@@ -13,7 +13,7 @@ class FirestoreRepository {
     private val db = FirebaseFirestore.getInstance()
 
     fun createTourney(tourney: Tourney): Task<DocumentReference> {
-        val fsTourney = FirestoreTourney.fromTourney(tourney)
+        val fsTourney = FirestoreTourney.fromTourneyShallow(tourney)
 
         Log.d(TAG, "adding Firestore document $tourney to collection $TOURNEY_COLLECTION")
         return db.collection(TOURNEY_COLLECTION).add(fsTourney)
@@ -22,6 +22,7 @@ class FirestoreRepository {
     fun getTourneysQuery(): Query {
         Log.d(TAG, "querying Firestore documents from collection $TOURNEY_COLLECTION")
         return db.collection(TOURNEY_COLLECTION)
+            .whereEqualTo(TOURNEY_CHAMPION_FIELD, null)
             .orderBy(TOURNEY_DATE_TIME_FIELD)
     }
 
@@ -51,9 +52,23 @@ class FirestoreRepository {
             .collection(TOURNEY_PLAYERS_COLLECTION).add(player)
     }
 
+    fun enterResults(tourneyId: String, championId: String, runnerUpIds: Set<String>): Task<Void> {
+        val tourneyDoc = db.collection(TOURNEY_COLLECTION).document(tourneyId)
+        val playersDoc = tourneyDoc.collection(TOURNEY_PLAYERS_COLLECTION)
+        val data = mapOf(
+            TOURNEY_CHAMPION_FIELD to playersDoc.document(championId),
+            TOURNEY_RUNNER_UPS_FIELD to runnerUpIds.map(playersDoc::document)
+        )
+
+        Log.d(TAG, "updating document with tourney ID = $tourneyId with data = $data")
+        return tourneyDoc.update(data)
+    }
+
     companion object {
         private const val TOURNEY_COLLECTION = "tourneys"
         private const val TOURNEY_DATE_TIME_FIELD = "dateTime"
+        private const val TOURNEY_CHAMPION_FIELD = "champion"
+        private const val TOURNEY_RUNNER_UPS_FIELD = "runnerUps"
         private const val TOURNEY_PLAYERS_COLLECTION = "players"
         private const val TOURNEY_PLAYERS_NICKNAME_FIELD = "nickname"
 

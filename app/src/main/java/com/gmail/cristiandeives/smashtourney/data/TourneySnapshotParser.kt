@@ -9,6 +9,6 @@ object TourneySnapshotParser : SnapshotParser<Tourney> {
 
         return snapshot.toObject(FirestoreTourney::class.java)
             ?.copy(id = snapId)
-            ?.toTourney() ?: Tourney(snapId)
+            ?.toTourneyShallow() ?: Tourney(snapId)
     }
 }

@@ -6,5 +6,7 @@ data class Tourney(
     val id: String = "",
     val title: String = "",
     val dateTime: LocalDateTime = LocalDateTime.now(),
-    val createdAt: LocalDateTime = LocalDateTime.now()
+    val createdAt: LocalDateTime = LocalDateTime.now(),
+    val champion: Player? = null,
+    val runnerUps: Set<Player> = emptySet()
 )

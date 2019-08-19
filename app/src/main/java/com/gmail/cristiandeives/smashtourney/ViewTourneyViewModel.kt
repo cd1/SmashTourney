@@ -15,10 +15,11 @@ class ViewTourneyViewModel(private val tourneyId: String) : ViewModel() {
 
     val playersFirestoreQuery = repo.getPlayersQuery(tourneyId)
     val loadTourneyRes = MutableLiveData<Resource<Tourney>>()
-    val loadPlayersRes = MutableLiveData<Resource<Boolean>>()
+    val loadPlayersRes = MutableLiveData<Resource<Nothing>>()
     val tourney = MediatorLiveData<Tourney>().apply {
         value = Tourney()
     }
+    val playersCount = MutableLiveData<Int>()
 
     init {
         tourney.addSource(loadTourneyRes) { res ->
@@ -71,7 +72,8 @@ class ViewTourneyViewModel(private val tourneyId: String) : ViewModel() {
                 return@addSnapshotListener
             }
 
-            loadPlayersRes.value = Resource.Success(snap?.isEmpty == false)
+            playersCount.value = (snap?.size() ?: 0)
+            loadPlayersRes.value = Resource.Success()
         }
     }
 

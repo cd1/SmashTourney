@@ -26,7 +26,7 @@ import org.threeten.bp.format.FormatStyle
 import java.text.SimpleDateFormat
 
 @MainThread
-class ViewTourneyFragment : Fragment(), JoinTourneyActionHandler {
+class ViewTourneyFragment : Fragment(), ViewTourneyActionHandler {
     private val args by navArgs<ViewTourneyFragmentArgs>()
     private val viewModel by viewModels<ViewTourneyViewModel>(factoryProducer = {
         ViewModelFactory(args.tourneyId)
@@ -73,7 +73,7 @@ class ViewTourneyFragment : Fragment(), JoinTourneyActionHandler {
 
         binding.recyclerViewPlayers.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = PlayersAdapter(opts)
+            adapter = PlayersRecyclerAdapter(opts)
         }
 
         viewModel.apply {
@@ -92,21 +92,23 @@ class ViewTourneyFragment : Fragment(), JoinTourneyActionHandler {
                 Log.v(TAG, "< loadTourneyRes#onChanged(t=$res)")
             })
 
-            loadPlayersRes.observe(viewLifecycleOwner, Observer { res: Resource<Boolean> ->
+            loadPlayersRes.observe(viewLifecycleOwner, Observer { res: Resource<Nothing> ->
                 Log.v(TAG, "> loadPlayersRes#onChanged(t=$res)")
 
                 when (res) {
                     is Resource.Loading -> onPlayersLoading()
-                    is Resource.Success -> onPlayersSuccess(res)
+                    is Resource.Success -> onPlayersSuccess()
                     is Resource.Error -> onPlayersError(res)
                 }
+
+                val hasAnyPlayers = playersCount.value?.let { it > 0 } ?: false
 
                 binding.textPlayersStatus.isVisible =
                     (res is Resource.Loading
                             || res is Resource.Error
-                            || (res is Resource.Success && (res.data != true)))
+                            || (res is Resource.Success && !hasAnyPlayers))
                 binding.recyclerViewPlayers.isVisible =
-                    (res is Resource.Success && (res.data == true))
+                    (res is Resource.Success && hasAnyPlayers)
 
                 Log.v(TAG, "< loadPlayersRes#onChanged(t=$res)")
             })
@@ -141,14 +143,20 @@ class ViewTourneyFragment : Fragment(), JoinTourneyActionHandler {
     }
 
     @UiThread
-    private fun dismissSnackbar() {
-        currentSnackbar?.dismiss()
+    override fun addPlayer(view: View) {
+        val directions = ViewTourneyFragmentDirections.actionViewTourneyAddPlayer(args.tourneyId)
+        findNavController().navigate(directions)
     }
 
     @UiThread
-    override fun joinTourney(view: View) {
-        val directions = ViewTourneyFragmentDirections.actionViewTourneyJoinTourney(args.tourneyId)
+    override fun enterResults(view: View) {
+        val directions = ViewTourneyFragmentDirections.actionViewTourneyEnterResults(args.tourneyId)
         findNavController().navigate(directions)
+    }
+
+    @UiThread
+    private fun dismissSnackbar() {
+        currentSnackbar?.dismiss()
     }
 
     @UiThread
@@ -197,8 +205,9 @@ class ViewTourneyFragment : Fragment(), JoinTourneyActionHandler {
     }
 
     @UiThread
-    private fun onPlayersSuccess(res: Resource.Success<Boolean>) {
-        if (res.data != true) {
+    private fun onPlayersSuccess() {
+        val hasNoPlayers = viewModel.playersCount.value?.let { it == 0 } ?: true
+        if (hasNoPlayers) {
             binding.textPlayersStatus.setText(R.string.view_tourney_player_no_players)
         }
     }

@@ -5,9 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View" />
-        <variable name="vm" type="com.gmail.cristiandeives.smashtourney.JoinTourneyViewModel" />
-        <variable name="action" type="com.gmail.cristiandeives.smashtourney.JoinTourneyActionHandler" />
+        <variable name="vm" type="com.gmail.cristiandeives.smashtourney.AddPlayerViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -26,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:labelFor="@id/edit_nickname"
-                android:text="@string/join_tourney_nickname_label"
+                android:text="@string/player_nickname_label"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_elements"
                 android:labelFor="@id/spinner_fighter"
-                android:text="@string/join_tourney_fighter_label"
+                android:text="@string/player_fighter_label"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_nickname" />
 
@@ -77,16 +75,16 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/button_join"
+            android:id="@+id/button_add_player"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="@{action::joinTourney}"
+            android:onClick="@{() -> vm.addPlayerToTourney()}"
             android:layout_gravity="bottom"
             android:layout_marginTop="@dimen/spacing_elements"
             android:layout_marginBottom="@dimen/spacing_window"
             android:layout_marginStart="@dimen/spacing_window"
             android:layout_marginEnd="@dimen/spacing_window"
-            android:text="@string/join_tourney_button_text"
+            android:text="@string/add_player_label"
             app:layout_behavior=".SnackbarAwareBehavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

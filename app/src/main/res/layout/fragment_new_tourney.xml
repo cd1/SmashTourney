@@ -90,7 +90,7 @@
             android:id="@+id/button_create"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:onClick="@{action::createTourney}"
+            android:onClick="@{() -> vm.createTourney()}"
             android:text="@string/create_tourney_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

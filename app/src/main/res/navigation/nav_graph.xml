@@ -84,18 +84,34 @@
             android:name="tourneyId"
             app:argType="string" />
         <action
-            android:id="@+id/action_view_tourney_join_tourney"
-            app:destination="@id/joinTourneyFragment"
+            android:id="@+id/action_view_tourney_add_player"
+            app:destination="@id/addPlayerFragment"
+            app:enterAnim="@animator/frag_enter"
+            app:exitAnim="@animator/frag_exit"
+            app:popEnterAnim="@animator/frag_pop_enter"
+            app:popExitAnim="@animator/frag_pop_exit" />
+        <action
+            android:id="@+id/action_view_tourney_enter_results"
+            app:destination="@id/enterResultsFragment"
             app:enterAnim="@animator/frag_enter"
             app:exitAnim="@animator/frag_exit"
             app:popEnterAnim="@animator/frag_pop_enter"
             app:popExitAnim="@animator/frag_pop_exit" />
     </fragment>
     <fragment
-        android:id="@+id/joinTourneyFragment"
-        android:name="com.gmail.cristiandeives.smashtourney.JoinTourneyFragment"
-        android:label="@string/join_tourney_label"
-        tools:layout="@layout/fragment_join_tourney" >
+        android:id="@+id/addPlayerFragment"
+        android:name="com.gmail.cristiandeives.smashtourney.AddPlayerFragment"
+        android:label="@string/add_player_label"
+        tools:layout="@layout/fragment_add_player" >
+        <argument
+            android:name="tourneyId"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/enterResultsFragment"
+        android:name="com.gmail.cristiandeives.smashtourney.EnterResultsFragment"
+        android:label="@string/enter_results_label"
+        tools:layout="@layout/fragment_enter_results" >
         <argument
             android:name="tourneyId"
             app:argType="string" />

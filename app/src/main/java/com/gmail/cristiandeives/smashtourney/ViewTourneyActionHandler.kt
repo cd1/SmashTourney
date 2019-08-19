@@ -4,6 +4,7 @@ import android.view.View
 import androidx.annotation.UiThread
 
 @UiThread
-interface JoinTourneyActionHandler {
-    fun joinTourney(view: View)
+interface ViewTourneyActionHandler {
+    fun addPlayer(view: View)
+    fun enterResults(view: View)
 }

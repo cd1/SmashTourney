@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="vm" type="com.gmail.cristiandeives.smashtourney.EnterResultsViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/spacing_window"
+            android:paddingBottom="@dimen/spacing_elements"
+            android:layout_gravity="top">
+
+            <TextView
+                android:id="@+id/text_champion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tourney_champion_label"
+                android:layout_marginStart="@dimen/spacing_elements"
+                android:layout_marginEnd="@dimen/spacing_elements"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Spinner
+                android:id="@+id/spinner_champion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_elements"
+                android:layout_marginEnd="@dimen/spacing_elements"
+                style="@style/Widget.AppCompat.Spinner.Underlined"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_champion"
+                bind:availablePlayers="@{vm.availablePlayers}"
+                bind:champion="@={vm.champion}" />
+
+            <TextView
+                android:id="@+id/text_runner_ups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tourney_runner_ups_label"
+                android:layout_marginTop="@dimen/spacing_elements"
+                android:layout_marginStart="@dimen/spacing_elements"
+                android:layout_marginEnd="@dimen/spacing_elements"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_champion" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_runner_ups"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_runner_ups"
+                tools:listitem="@layout/view_holder_runner_up_player" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/button_enter_results"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:text="@string/enter_results_label"
+            android:layout_marginTop="@dimen/spacing_elements"
+            android:layout_marginBottom="@dimen/spacing_window"
+            android:layout_marginStart="@dimen/spacing_window"
+            android:layout_marginEnd="@dimen/spacing_window"
+            android:onClick="@{() -> vm.enterResults()}"
+            app:layout_behavior=".SnackbarAwareBehavior" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

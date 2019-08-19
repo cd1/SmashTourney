@@ -148,11 +148,6 @@ class NewTourneyFragment : Fragment(),
     }
 
     @UiThread
-    override fun createTourney(view: View) {
-        viewModel.createTourney()
-    }
-
-    @UiThread
     private fun startCreateProgress() {
         progressDialog.show()
     }

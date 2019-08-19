@@ -8,7 +8,7 @@
         <import type="android.text.TextUtils" />
 
         <variable name="vm" type="com.gmail.cristiandeives.smashtourney.ViewTourneyViewModel" />
-        <variable name="action" type="com.gmail.cristiandeives.smashtourney.JoinTourneyActionHandler" />
+        <variable name="action" type="com.gmail.cristiandeives.smashtourney.ViewTourneyActionHandler" />
         <variable name="dateFormatter" type="org.threeten.bp.format.DateTimeFormatter" />
         <variable name="timeFormatter" type="org.threeten.bp.format.DateTimeFormatter" />
     </data>
@@ -42,7 +42,7 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_title"
+                app:layout_constraintTop_toBottomOf="@id/text_title"
                 tools:text="Jan 01, 2001" />
 
             <TextView
@@ -53,15 +53,21 @@
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_date"
+                app:layout_constraintTop_toBottomOf="@id/text_date"
                 tools:text="02:34" />
 
-            <Space
-                android:id="@+id/space"
+            <Button
+                android:id="@+id/button_add_player"
                 android:layout_width="wrap_content"
-                android:layout_height="64dp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_elements"
+                android:layout_marginStart="@dimen/spacing_window"
+                android:layout_marginEnd="@dimen/spacing_window"
+                android:text="@string/add_player_label"
+                android:onClick="@{action::addPlayer}"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_time" />
 
             <!-- at most one of @id/text_players_status or @id/recycler_view_players should be visible at any given time -->
@@ -69,7 +75,7 @@
             <TextView
                 android:id="@+id/text_players_status"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:paddingTop="@dimen/spacing_elements"
                 android:paddingBottom="@dimen/spacing_elements"
                 android:paddingStart="@dimen/spacing_window"
@@ -77,7 +83,7 @@
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/space" />
+                app:layout_constraintTop_toBottomOf="@id/button_add_player" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_players"
@@ -89,23 +95,24 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/space"
+                app:layout_constraintTop_toBottomOf="@id/button_add_player"
                 tools:listitem="@layout/view_holder_player"
                 tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/button_join_tourney"
+            android:id="@+id/button_enter_results"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/join_tourney_button_text"
-            android:onClick="@{action::joinTourney}"
+            android:text="@string/enter_results_label"
+            android:onClick="@{action::enterResults}"
             android:layout_marginStart="@dimen/spacing_window"
             android:layout_marginEnd="@dimen/spacing_window"
             android:layout_marginTop="@dimen/spacing_elements"
             android:layout_marginBottom="@dimen/spacing_window"
             android:layout_gravity="bottom"
+            android:enabled="@{vm.playersCount >= 2}"
             app:layout_behavior=".SnackbarAwareBehavior" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
